@@ -16,6 +16,7 @@ import { Route as TourSlugRouteImport } from './routes/tour.$slug'
 import { Route as LiveCodeRouteImport } from './routes/live.$code'
 import { Route as BrokerIdRouteImport } from './routes/broker.$id'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDashboardPerfilRouteImport } from './routes/_authenticated/dashboard.perfil'
 import { Route as AuthenticatedDashboardLiveRouteImport } from './routes/_authenticated/dashboard.live'
 import { Route as AuthenticatedDashboardInmueblesRouteImport } from './routes/_authenticated/dashboard.inmuebles'
 import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
@@ -54,6 +55,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedDashboardPerfilRoute =
+  AuthenticatedDashboardPerfilRouteImport.update({
+    id: '/perfil',
+    path: '/perfil',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 const AuthenticatedDashboardLiveRoute =
   AuthenticatedDashboardLiveRouteImport.update({
     id: '/live',
@@ -82,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/tour/$slug': typeof TourSlugRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
+  '/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRoutesByTo {
@@ -93,6 +101,7 @@ export interface FileRoutesByTo {
   '/tour/$slug': typeof TourSlugRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
+  '/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRoutesById {
@@ -106,6 +115,7 @@ export interface FileRoutesById {
   '/tour/$slug': typeof TourSlugRoute
   '/_authenticated/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/_authenticated/dashboard/live': typeof AuthenticatedDashboardLiveRoute
+  '/_authenticated/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
   '/_authenticated/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRouteTypes {
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/tour/$slug'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
+    | '/dashboard/perfil'
     | '/dashboard/editor/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/tour/$slug'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
+    | '/dashboard/perfil'
     | '/dashboard/editor/$slug'
   id:
     | '__root__'
@@ -142,6 +154,7 @@ export interface FileRouteTypes {
     | '/tour/$slug'
     | '/_authenticated/dashboard/inmuebles'
     | '/_authenticated/dashboard/live'
+    | '/_authenticated/dashboard/perfil'
     | '/_authenticated/dashboard/editor/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/dashboard/perfil': {
+      id: '/_authenticated/dashboard/perfil'
+      path: '/perfil'
+      fullPath: '/dashboard/perfil'
+      preLoaderRoute: typeof AuthenticatedDashboardPerfilRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
     '/_authenticated/dashboard/live': {
       id: '/_authenticated/dashboard/live'
       path: '/live'
@@ -232,6 +252,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardInmueblesRoute: typeof AuthenticatedDashboardInmueblesRoute
   AuthenticatedDashboardLiveRoute: typeof AuthenticatedDashboardLiveRoute
+  AuthenticatedDashboardPerfilRoute: typeof AuthenticatedDashboardPerfilRoute
   AuthenticatedDashboardEditorSlugRoute: typeof AuthenticatedDashboardEditorSlugRoute
 }
 
@@ -239,6 +260,7 @@ const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
     AuthenticatedDashboardInmueblesRoute: AuthenticatedDashboardInmueblesRoute,
     AuthenticatedDashboardLiveRoute: AuthenticatedDashboardLiveRoute,
+    AuthenticatedDashboardPerfilRoute: AuthenticatedDashboardPerfilRoute,
     AuthenticatedDashboardEditorSlugRoute:
       AuthenticatedDashboardEditorSlugRoute,
   }
