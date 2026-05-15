@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TourSlugRouteImport } from './routes/tour.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -39,32 +40,46 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedDashboardEditorSlugRoute =
+  AuthenticatedDashboardEditorSlugRouteImport.update({
+    id: '/editor/$slug',
+    path: '/editor/$slug',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/tour/$slug': typeof TourSlugRoute
+  '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/tour/$slug': typeof TourSlugRoute
+  '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
-  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/tour/$slug': typeof TourSlugRoute
+  '/_authenticated/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/dashboard' | '/tour/$slug'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/dashboard'
+    | '/tour/$slug'
+    | '/dashboard/editor/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/dashboard' | '/tour/$slug'
+  to: '/' | '/login' | '/dashboard' | '/tour/$slug' | '/dashboard/editor/$slug'
   id:
     | '__root__'
     | '/'
@@ -72,6 +87,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/_authenticated/dashboard'
     | '/tour/$slug'
+    | '/_authenticated/dashboard/editor/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,15 +134,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/dashboard/editor/$slug': {
+      id: '/_authenticated/dashboard/editor/$slug'
+      path: '/editor/$slug'
+      fullPath: '/dashboard/editor/$slug'
+      preLoaderRoute: typeof AuthenticatedDashboardEditorSlugRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
   }
 }
 
+interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardEditorSlugRoute: typeof AuthenticatedDashboardEditorSlugRoute
+}
+
+const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
+  {
+    AuthenticatedDashboardEditorSlugRoute:
+      AuthenticatedDashboardEditorSlugRoute,
+  }
+
+const AuthenticatedDashboardRouteWithChildren =
+  AuthenticatedDashboardRoute._addFileChildren(
+    AuthenticatedDashboardRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
