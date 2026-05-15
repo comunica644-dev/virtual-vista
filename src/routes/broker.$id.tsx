@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getBroker, toursDeBroker } from "@/lib/mock-data";
+import { getBroker, toursDeBroker, type Tour } from "@/lib/mock-data";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -55,7 +55,7 @@ function BrokerPage() {
           <section className="mt-16 pb-20">
             <h2 className="font-display text-2xl mb-6">Catálogo ({tours.length})</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {tours.map((t) => (
+              {tours.map((t: Tour) => (
                 <Link key={t.id} to="/tour/$slug" params={{ slug: t.slug }} className="group">
                   <Card className="overflow-hidden border-border/60 hover:shadow-elegant transition group-hover:-translate-y-1 p-0">
                     <div className="relative aspect-[4/3] overflow-hidden">
