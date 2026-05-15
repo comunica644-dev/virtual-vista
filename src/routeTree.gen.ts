@@ -19,6 +19,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDashboardPerfilRouteImport } from './routes/_authenticated/dashboard.perfil'
 import { Route as AuthenticatedDashboardLiveRouteImport } from './routes/_authenticated/dashboard.live'
 import { Route as AuthenticatedDashboardInmueblesRouteImport } from './routes/_authenticated/dashboard.inmuebles'
+import { Route as AuthenticatedDashboardFacturacionRouteImport } from './routes/_authenticated/dashboard.facturacion'
 import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
 
 const LoginRoute = LoginRouteImport.update({
@@ -73,6 +74,12 @@ const AuthenticatedDashboardInmueblesRoute =
     path: '/inmuebles',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedDashboardFacturacionRoute =
+  AuthenticatedDashboardFacturacionRouteImport.update({
+    id: '/facturacion',
+    path: '/facturacion',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 const AuthenticatedDashboardEditorSlugRoute =
   AuthenticatedDashboardEditorSlugRouteImport.update({
     id: '/editor/$slug',
@@ -87,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
@@ -99,6 +107,7 @@ export interface FileRoutesByTo {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
@@ -113,6 +122,7 @@ export interface FileRoutesById {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/_authenticated/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/_authenticated/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/_authenticated/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/_authenticated/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/dashboard/facturacion'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
     | '/dashboard/perfil'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/dashboard/facturacion'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
     | '/dashboard/perfil'
@@ -152,6 +164,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/_authenticated/dashboard/facturacion'
     | '/_authenticated/dashboard/inmuebles'
     | '/_authenticated/dashboard/live'
     | '/_authenticated/dashboard/perfil'
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardInmueblesRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/dashboard/facturacion': {
+      id: '/_authenticated/dashboard/facturacion'
+      path: '/facturacion'
+      fullPath: '/dashboard/facturacion'
+      preLoaderRoute: typeof AuthenticatedDashboardFacturacionRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
     '/_authenticated/dashboard/editor/$slug': {
       id: '/_authenticated/dashboard/editor/$slug'
       path: '/editor/$slug'
@@ -250,6 +270,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardFacturacionRoute: typeof AuthenticatedDashboardFacturacionRoute
   AuthenticatedDashboardInmueblesRoute: typeof AuthenticatedDashboardInmueblesRoute
   AuthenticatedDashboardLiveRoute: typeof AuthenticatedDashboardLiveRoute
   AuthenticatedDashboardPerfilRoute: typeof AuthenticatedDashboardPerfilRoute
@@ -258,6 +279,8 @@ interface AuthenticatedDashboardRouteChildren {
 
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
+    AuthenticatedDashboardFacturacionRoute:
+      AuthenticatedDashboardFacturacionRoute,
     AuthenticatedDashboardInmueblesRoute: AuthenticatedDashboardInmueblesRoute,
     AuthenticatedDashboardLiveRoute: AuthenticatedDashboardLiveRoute,
     AuthenticatedDashboardPerfilRoute: AuthenticatedDashboardPerfilRoute,
@@ -293,3 +316,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
