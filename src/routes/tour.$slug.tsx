@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { getTourBySlug } from "@/lib/mock-data";
+import { getTourBySlug, type Scene } from "@/lib/mock-data";
 import Pannellum360 from "@/components/site/Pannellum360";
 import LeadModal from "@/components/site/LeadModal";
 import { Button } from "@/components/ui/button";
@@ -71,7 +71,7 @@ function TourPage() {
             </Badge>
           </div>
           <div className="flex flex-wrap gap-2">
-            {tour.scenes.map((s) => (
+            {tour.scenes.map((s: Scene) => (
               <Badge key={s.id} variant="outline" className="text-xs">{s.title}</Badge>
             ))}
           </div>
@@ -98,7 +98,7 @@ function TourPage() {
             <h2 className="font-display text-xl mb-3">Sobre este inmueble</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">{tour.descripcion}</p>
             <div className="mt-4 flex flex-wrap gap-1.5">
-              {tour.extras.map((e) => (
+              {tour.extras.map((e: string) => (
                 <Badge key={e} variant="secondary">{e}</Badge>
               ))}
             </div>
