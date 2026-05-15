@@ -17,6 +17,7 @@ import { Route as LiveCodeRouteImport } from './routes/live.$code'
 import { Route as BrokerIdRouteImport } from './routes/broker.$id'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDashboardLiveRouteImport } from './routes/_authenticated/dashboard.live'
+import { Route as AuthenticatedDashboardInmueblesRouteImport } from './routes/_authenticated/dashboard.inmuebles'
 import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
 
 const LoginRoute = LoginRouteImport.update({
@@ -59,6 +60,12 @@ const AuthenticatedDashboardLiveRoute =
     path: '/live',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedDashboardInmueblesRoute =
+  AuthenticatedDashboardInmueblesRouteImport.update({
+    id: '/inmuebles',
+    path: '/inmuebles',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 const AuthenticatedDashboardEditorSlugRoute =
   AuthenticatedDashboardEditorSlugRouteImport.update({
     id: '/editor/$slug',
@@ -73,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -83,6 +91,7 @@ export interface FileRoutesByTo {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -95,6 +104,7 @@ export interface FileRoutesById {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/_authenticated/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/_authenticated/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/_authenticated/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/dashboard/inmuebles'
     | '/dashboard/live'
     | '/dashboard/editor/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/dashboard/inmuebles'
     | '/dashboard/live'
     | '/dashboard/editor/$slug'
   id:
@@ -128,6 +140,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/_authenticated/dashboard/inmuebles'
     | '/_authenticated/dashboard/live'
     | '/_authenticated/dashboard/editor/$slug'
   fileRoutesById: FileRoutesById
@@ -199,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardLiveRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/dashboard/inmuebles': {
+      id: '/_authenticated/dashboard/inmuebles'
+      path: '/inmuebles'
+      fullPath: '/dashboard/inmuebles'
+      preLoaderRoute: typeof AuthenticatedDashboardInmueblesRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
     '/_authenticated/dashboard/editor/$slug': {
       id: '/_authenticated/dashboard/editor/$slug'
       path: '/editor/$slug'
@@ -210,12 +230,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardInmueblesRoute: typeof AuthenticatedDashboardInmueblesRoute
   AuthenticatedDashboardLiveRoute: typeof AuthenticatedDashboardLiveRoute
   AuthenticatedDashboardEditorSlugRoute: typeof AuthenticatedDashboardEditorSlugRoute
 }
 
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
+    AuthenticatedDashboardInmueblesRoute: AuthenticatedDashboardInmueblesRoute,
     AuthenticatedDashboardLiveRoute: AuthenticatedDashboardLiveRoute,
     AuthenticatedDashboardEditorSlugRoute:
       AuthenticatedDashboardEditorSlugRoute,
@@ -249,3 +271,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
