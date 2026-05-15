@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TourSlugRouteImport } from './routes/tour.$slug'
 import { Route as LiveCodeRouteImport } from './routes/live.$code'
+import { Route as BrokerIdRouteImport } from './routes/broker.$id'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDashboardLiveRouteImport } from './routes/_authenticated/dashboard.live'
 import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
@@ -42,6 +43,11 @@ const LiveCodeRoute = LiveCodeRouteImport.update({
   path: '/live/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrokerIdRoute = BrokerIdRouteImport.update({
+  id: '/broker/$id',
+  path: '/broker/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
   '/_authenticated/dashboard/live': typeof AuthenticatedDashboardLiveRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/dashboard'
+    | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
     | '/dashboard/live'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/dashboard'
+    | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
     | '/dashboard/live'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/login'
     | '/_authenticated/dashboard'
+    | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
     | '/_authenticated/dashboard/live'
@@ -124,6 +136,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
+  BrokerIdRoute: typeof BrokerIdRoute
   LiveCodeRoute: typeof LiveCodeRoute
   TourSlugRoute: typeof TourSlugRoute
 }
@@ -163,6 +176,13 @@ declare module '@tanstack/react-router' {
       path: '/live/$code'
       fullPath: '/live/$code'
       preLoaderRoute: typeof LiveCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/broker/$id': {
+      id: '/broker/$id'
+      path: '/broker/$id'
+      fullPath: '/broker/$id'
+      preLoaderRoute: typeof BrokerIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/dashboard': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
+  BrokerIdRoute: BrokerIdRoute,
   LiveCodeRoute: LiveCodeRoute,
   TourSlugRoute: TourSlugRoute,
 }
