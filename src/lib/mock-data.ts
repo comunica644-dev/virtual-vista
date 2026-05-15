@@ -147,3 +147,74 @@ export const TOURS: Tour[] = [
 ];
 
 export const getTourBySlug = (slug: string) => TOURS.find((t) => t.slug === slug);
+
+export type BrokerProfile = {
+  id: number;
+  nombre: string;
+  empresa?: string;
+  bio: string;
+  telefono: string;
+  email: string;
+  avatar: string;
+  portada: string;
+  redes: { instagram?: string; facebook?: string; web?: string };
+  marca: { color: string; logo?: string; dominio?: string };
+  plan: "bronce" | "plata" | "oro";
+};
+
+export const BROKERS: BrokerProfile[] = [
+  {
+    id: 45,
+    nombre: "Jesús Sánchez",
+    empresa: "Sánchez & Asociados",
+    bio: "Especialista en propiedades de lujo en el occidente de Venezuela. 12 años conectando familias con su próximo hogar.",
+    telefono: "+58 414 555 0188",
+    email: "jesus@sanchezbienes.com",
+    avatar: "https://i.pravatar.cc/200?img=12",
+    portada: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80",
+    redes: { instagram: "@sanchezbienes", facebook: "sanchezbienes", web: "sanchezbienes.com" },
+    marca: { color: "#9b6b3f", logo: "", dominio: "sanchezbienes.com" },
+    plan: "oro",
+  },
+  {
+    id: 47,
+    nombre: "María Fernández",
+    empresa: "MF Inmobiliaria",
+    bio: "Penthouses, áticos y propiedades exclusivas en Caracas.",
+    telefono: "+58 412 555 0145",
+    email: "maria@mfinmo.com",
+    avatar: "https://i.pravatar.cc/200?img=44",
+    portada: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1600&q=80",
+    redes: { instagram: "@mariafernandez_mf" },
+    marca: { color: "#3f6b9b" },
+    plan: "plata",
+  },
+];
+
+export const getBroker = (id: number) => BROKERS.find((b) => b.id === id);
+export const toursDeBroker = (id: number) => TOURS.filter((t) => t.broker.id === id);
+
+// Admin mock
+export type AdminUser = {
+  id: number;
+  nombre: string;
+  email: string;
+  rol: "broker" | "cliente" | "admin";
+  plan?: "bronce" | "plata" | "oro";
+  estado: "activo" | "bloqueado";
+  registro: string;
+};
+
+export const ADMIN_USERS: AdminUser[] = [
+  { id: 45, nombre: "Jesús Sánchez", email: "jesus@sanchezbienes.com", rol: "broker", plan: "oro", estado: "activo", registro: "2024-08-12" },
+  { id: 47, nombre: "María Fernández", email: "maria@mfinmo.com", rol: "broker", plan: "plata", estado: "activo", registro: "2025-01-04" },
+  { id: 88, nombre: "Carlos Pérez", email: "carlos@gmail.com", rol: "cliente", estado: "activo", registro: "2025-03-19" },
+  { id: 91, nombre: "Lucía Ríos", email: "lucia.rios@hotmail.com", rol: "cliente", estado: "bloqueado", registro: "2025-04-02" },
+  { id: 102, nombre: "Pedro Maldonado", email: "pmal@empresa.com", rol: "broker", plan: "bronce", estado: "activo", registro: "2025-05-15" },
+];
+
+export const PLANES = [
+  { id: "bronce", nombre: "Bronce", precio: 19, tours: 5, color: "from-amber-700/80 to-amber-900", features: ["5 tours activos", "Captura de leads", "Soporte por email"] },
+  { id: "plata", nombre: "Plata", precio: 49, tours: 25, color: "from-zinc-400 to-zinc-600", features: ["25 tours activos", "Presentación en vivo", "SEO con IA", "Subdominio personalizado"] },
+  { id: "oro", nombre: "Oro", precio: 119, tours: 999, color: "from-amber-400 to-amber-600", features: ["Tours ilimitados", "Marca blanca completa", "Dominio propio", "Analítica avanzada", "Soporte prioritario"] },
+] as const;
