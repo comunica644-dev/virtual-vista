@@ -13,7 +13,9 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TourSlugRouteImport } from './routes/tour.$slug'
+import { Route as LiveCodeRouteImport } from './routes/live.$code'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDashboardLiveRouteImport } from './routes/_authenticated/dashboard.live'
 import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
 
 const LoginRoute = LoginRouteImport.update({
@@ -35,11 +37,22 @@ const TourSlugRoute = TourSlugRouteImport.update({
   path: '/tour/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LiveCodeRoute = LiveCodeRouteImport.update({
+  id: '/live/$code',
+  path: '/live/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedDashboardLiveRoute =
+  AuthenticatedDashboardLiveRouteImport.update({
+    id: '/live',
+    path: '/live',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 const AuthenticatedDashboardEditorSlugRoute =
   AuthenticatedDashboardEditorSlugRouteImport.update({
     id: '/editor/$slug',
@@ -51,14 +64,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRoutesById {
@@ -67,7 +84,9 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/_authenticated/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/_authenticated/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
 export interface FileRouteTypes {
@@ -76,17 +95,28 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/dashboard'
+    | '/live/$code'
     | '/tour/$slug'
+    | '/dashboard/live'
     | '/dashboard/editor/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/dashboard' | '/tour/$slug' | '/dashboard/editor/$slug'
+  to:
+    | '/'
+    | '/login'
+    | '/dashboard'
+    | '/live/$code'
+    | '/tour/$slug'
+    | '/dashboard/live'
+    | '/dashboard/editor/$slug'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/login'
     | '/_authenticated/dashboard'
+    | '/live/$code'
     | '/tour/$slug'
+    | '/_authenticated/dashboard/live'
     | '/_authenticated/dashboard/editor/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -94,6 +124,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
+  LiveCodeRoute: typeof LiveCodeRoute
   TourSlugRoute: typeof TourSlugRoute
 }
 
@@ -127,12 +158,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TourSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/live/$code': {
+      id: '/live/$code'
+      path: '/live/$code'
+      fullPath: '/live/$code'
+      preLoaderRoute: typeof LiveCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dashboard/live': {
+      id: '/_authenticated/dashboard/live'
+      path: '/live'
+      fullPath: '/dashboard/live'
+      preLoaderRoute: typeof AuthenticatedDashboardLiveRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
     }
     '/_authenticated/dashboard/editor/$slug': {
       id: '/_authenticated/dashboard/editor/$slug'
@@ -145,11 +190,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardLiveRoute: typeof AuthenticatedDashboardLiveRoute
   AuthenticatedDashboardEditorSlugRoute: typeof AuthenticatedDashboardEditorSlugRoute
 }
 
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
+    AuthenticatedDashboardLiveRoute: AuthenticatedDashboardLiveRoute,
     AuthenticatedDashboardEditorSlugRoute:
       AuthenticatedDashboardEditorSlugRoute,
   }
@@ -175,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
+  LiveCodeRoute: LiveCodeRoute,
   TourSlugRoute: TourSlugRoute,
 }
 export const routeTree = rootRouteImport
