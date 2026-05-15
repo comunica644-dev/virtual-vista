@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, useNavigate, Link, useRouterState } from "@tan
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Compass, LayoutDashboard, LogOut, Radio } from "lucide-react";
+import { Compass, LayoutDashboard, LogOut, Radio, Building2, UserCog, CreditCard, ShieldCheck, Plus } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthLayout,
@@ -36,7 +36,14 @@ function AuthLayout() {
         </Link>
         <nav className="flex-1 p-3 space-y-1 text-sm">
           <NavLink to="/dashboard" active={path === "/dashboard"} icon={LayoutDashboard}>Panel</NavLink>
+          <NavLink to="/dashboard/inmuebles" active={path.startsWith("/dashboard/inmuebles")} icon={Building2}>Mis inmuebles</NavLink>
+          <NavLink to="/dashboard/nuevo" active={path.startsWith("/dashboard/nuevo")} icon={Plus}>Nuevo tour</NavLink>
           <NavLink to="/dashboard/live" active={path.startsWith("/dashboard/live")} icon={Radio}>Sesiones en vivo</NavLink>
+          <div className="pt-4 pb-1 px-3 text-[10px] uppercase tracking-wider text-muted-foreground/70">Cuenta</div>
+          <NavLink to="/dashboard/perfil" active={path.startsWith("/dashboard/perfil")} icon={UserCog}>Perfil y marca</NavLink>
+          <NavLink to="/dashboard/facturacion" active={path.startsWith("/dashboard/facturacion")} icon={CreditCard}>Facturación</NavLink>
+          <div className="pt-4 pb-1 px-3 text-[10px] uppercase tracking-wider text-muted-foreground/70">Sistema</div>
+          <NavLink to="/admin/usuarios" active={path.startsWith("/admin")} icon={ShieldCheck}>Super admin</NavLink>
         </nav>
         <div className="p-3 border-t border-sidebar-border">
           <div className="flex items-center gap-3 px-2 py-2">
