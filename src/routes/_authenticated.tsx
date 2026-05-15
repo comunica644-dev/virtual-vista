@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, useNavigate, Link, useRouterState } from "@tan
 import { useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Compass, LayoutDashboard, LogOut, Plus, Radio } from "lucide-react";
+import { Compass, LayoutDashboard, LogOut, Radio } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthLayout,
@@ -65,5 +65,3 @@ function NavLink({ to, active, icon: Icon, children }: { to: string; active: boo
     </Link>
   );
 }
-
-export { Plus };
