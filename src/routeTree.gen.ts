@@ -17,6 +17,7 @@ import { Route as LiveCodeRouteImport } from './routes/live.$code'
 import { Route as BrokerIdRouteImport } from './routes/broker.$id'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDashboardPerfilRouteImport } from './routes/_authenticated/dashboard.perfil'
+import { Route as AuthenticatedDashboardNuevoRouteImport } from './routes/_authenticated/dashboard.nuevo'
 import { Route as AuthenticatedDashboardLiveRouteImport } from './routes/_authenticated/dashboard.live'
 import { Route as AuthenticatedDashboardInmueblesRouteImport } from './routes/_authenticated/dashboard.inmuebles'
 import { Route as AuthenticatedDashboardFacturacionRouteImport } from './routes/_authenticated/dashboard.facturacion'
@@ -62,6 +63,12 @@ const AuthenticatedDashboardPerfilRoute =
     path: '/perfil',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedDashboardNuevoRoute =
+  AuthenticatedDashboardNuevoRouteImport.update({
+    id: '/nuevo',
+    path: '/nuevo',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 const AuthenticatedDashboardLiveRoute =
   AuthenticatedDashboardLiveRouteImport.update({
     id: '/live',
@@ -97,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
+  '/dashboard/nuevo': typeof AuthenticatedDashboardNuevoRoute
   '/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -110,6 +118,7 @@ export interface FileRoutesByTo {
   '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
+  '/dashboard/nuevo': typeof AuthenticatedDashboardNuevoRoute
   '/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -125,6 +134,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/_authenticated/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/_authenticated/dashboard/live': typeof AuthenticatedDashboardLiveRoute
+  '/_authenticated/dashboard/nuevo': typeof AuthenticatedDashboardNuevoRoute
   '/_authenticated/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
   '/_authenticated/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/dashboard/facturacion'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
+    | '/dashboard/nuevo'
     | '/dashboard/perfil'
     | '/dashboard/editor/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/dashboard/facturacion'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
+    | '/dashboard/nuevo'
     | '/dashboard/perfil'
     | '/dashboard/editor/$slug'
   id:
@@ -167,6 +179,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/facturacion'
     | '/_authenticated/dashboard/inmuebles'
     | '/_authenticated/dashboard/live'
+    | '/_authenticated/dashboard/nuevo'
     | '/_authenticated/dashboard/perfil'
     | '/_authenticated/dashboard/editor/$slug'
   fileRoutesById: FileRoutesById
@@ -238,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardPerfilRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/dashboard/nuevo': {
+      id: '/_authenticated/dashboard/nuevo'
+      path: '/nuevo'
+      fullPath: '/dashboard/nuevo'
+      preLoaderRoute: typeof AuthenticatedDashboardNuevoRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
     '/_authenticated/dashboard/live': {
       id: '/_authenticated/dashboard/live'
       path: '/live'
@@ -273,6 +293,7 @@ interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardFacturacionRoute: typeof AuthenticatedDashboardFacturacionRoute
   AuthenticatedDashboardInmueblesRoute: typeof AuthenticatedDashboardInmueblesRoute
   AuthenticatedDashboardLiveRoute: typeof AuthenticatedDashboardLiveRoute
+  AuthenticatedDashboardNuevoRoute: typeof AuthenticatedDashboardNuevoRoute
   AuthenticatedDashboardPerfilRoute: typeof AuthenticatedDashboardPerfilRoute
   AuthenticatedDashboardEditorSlugRoute: typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -283,6 +304,7 @@ const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
       AuthenticatedDashboardFacturacionRoute,
     AuthenticatedDashboardInmueblesRoute: AuthenticatedDashboardInmueblesRoute,
     AuthenticatedDashboardLiveRoute: AuthenticatedDashboardLiveRoute,
+    AuthenticatedDashboardNuevoRoute: AuthenticatedDashboardNuevoRoute,
     AuthenticatedDashboardPerfilRoute: AuthenticatedDashboardPerfilRoute,
     AuthenticatedDashboardEditorSlugRoute:
       AuthenticatedDashboardEditorSlugRoute,
