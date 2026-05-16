@@ -18,8 +18,11 @@ export type Tour = {
   id: string;
   slug: string;
   titulo: string;
+  tipo: "casa" | "apartamento" | "penthouse" | "loft" | "local" | "oficina";
+  operacion: "venta" | "alquiler";
   precio: number;
   ubicacion: string;
+  ciudad: string;
   portada_url: string;
   descripcion: string;
   stats: { habitaciones: number; banos: number; m2: number };
@@ -41,8 +44,11 @@ export const TOURS: Tour[] = [
     id: "tour_881",
     slug: "casa-lago-tachira",
     titulo: "Casa Frente al Lago en Táchira",
+    tipo: "casa",
+    operacion: "venta",
     precio: 285000,
     ubicacion: "Táchira, Venezuela",
+    ciudad: "Táchira",
     portada_url: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&q=80",
     descripcion:
       "Espectacular residencia de 250m² frente al lago, con cocina italiana, cerradura biométrica Samsung y vistas panorámicas en cada habitación.",
@@ -91,8 +97,11 @@ export const TOURS: Tour[] = [
     id: "tour_882",
     slug: "penthouse-las-mercedes",
     titulo: "Penthouse Las Mercedes",
+    tipo: "penthouse",
+    operacion: "venta",
     precio: 540000,
     ubicacion: "Caracas, Venezuela",
+    ciudad: "Caracas",
     portada_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80",
     descripcion: "Penthouse de lujo de 320m² con terraza, jacuzzi y vistas 360° de la ciudad.",
     stats: { habitaciones: 3, banos: 4, m2: 320 },
@@ -125,8 +134,11 @@ export const TOURS: Tour[] = [
     id: "tour_883",
     slug: "loft-chacao",
     titulo: "Loft moderno en Chacao",
+    tipo: "loft",
+    operacion: "alquiler",
     precio: 145000,
     ubicacion: "Chacao, Caracas",
+    ciudad: "Caracas",
     portada_url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80",
     descripcion: "Loft de diseño con doble altura y acabados industriales.",
     stats: { habitaciones: 1, banos: 2, m2: 95 },
@@ -143,6 +155,66 @@ export const TOURS: Tour[] = [
     scenes: [
       { id: "loft", title: "Loft", panorama: P1, hotSpots: [] },
     ],
+  },
+  {
+    id: "tour_884",
+    slug: "apto-centro-valencia",
+    titulo: "Apartamento Centro Valencia",
+    tipo: "apartamento",
+    operacion: "venta",
+    precio: 89000,
+    ubicacion: "Valencia, Carabobo",
+    ciudad: "Valencia",
+    portada_url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80",
+    descripcion: "Apartamento luminoso de 3 habitaciones cerca de todo.",
+    stats: { habitaciones: 3, banos: 2, m2: 110 },
+    broker: { id: 47, nombre: "María Fernández", telefono: "+58 412 555 0145", avatar: "https://i.pravatar.cc/120?img=44" },
+    extras: ["Piscina común", "Gimnasio", "Vigilancia 24h"],
+    vistas: 412,
+    leads: 9,
+    defaultScene: "sala",
+    scenes: [
+      { id: "sala", title: "Sala", panorama: P2, hotSpots: [{ id: "hh1", pitch: 0, yaw: 90, type: "scene", text: "Cocina", sceneId: "cocina" }] },
+      { id: "cocina", title: "Cocina", panorama: P3, hotSpots: [{ id: "hh2", pitch: 0, yaw: -90, type: "scene", text: "Sala", sceneId: "sala" }] },
+    ],
+  },
+  {
+    id: "tour_885",
+    slug: "local-comercial-maracaibo",
+    titulo: "Local Comercial Av. 5 de Julio",
+    tipo: "local",
+    operacion: "alquiler",
+    precio: 1800,
+    ubicacion: "Maracaibo, Zulia",
+    ciudad: "Maracaibo",
+    portada_url: "https://images.unsplash.com/photo-1604328698692-f76ea9498e76?w=1200&q=80",
+    descripcion: "Local comercial 80m² en avenida principal con alto tráfico.",
+    stats: { habitaciones: 0, banos: 1, m2: 80 },
+    broker: { id: 45, nombre: "Jesús Sánchez", telefono: "+58 414 555 0188", avatar: "https://i.pravatar.cc/120?img=12" },
+    extras: ["Esquina", "Vidriera amplia", "Estacionamiento"],
+    vistas: 220,
+    leads: 5,
+    defaultScene: "local",
+    scenes: [{ id: "local", title: "Local", panorama: P3, hotSpots: [] }],
+  },
+  {
+    id: "tour_886",
+    slug: "oficina-altamira",
+    titulo: "Oficina Premium Altamira",
+    tipo: "oficina",
+    operacion: "alquiler",
+    precio: 2200,
+    ubicacion: "Altamira, Caracas",
+    ciudad: "Caracas",
+    portada_url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80",
+    descripcion: "Oficina amoblada de 140m² en torre ejecutiva.",
+    stats: { habitaciones: 0, banos: 2, m2: 140 },
+    broker: { id: 47, nombre: "María Fernández", telefono: "+58 412 555 0145", avatar: "https://i.pravatar.cc/120?img=44" },
+    extras: ["Amoblada", "Sala de juntas", "Vigilancia 24h"],
+    vistas: 311,
+    leads: 12,
+    defaultScene: "oficina",
+    scenes: [{ id: "oficina", title: "Oficina", panorama: P1, hotSpots: [] }],
   },
 ];
 
