@@ -73,7 +73,7 @@ function Explorar() {
   }, [search, tipos, precio, m2, habs, banos, extras]);
 
   const setSearch = (patch: Partial<typeof search>) =>
-    navigate({ search: (prev) => ({ ...prev, ...patch }), replace: true });
+    navigate({ search: (prev: typeof search) => ({ ...prev, ...patch }), replace: true });
 
   const resetAll = () => {
     setTipos([]); setPrecio([0, 1000000]); setM2([0, 500]); setHabs(0); setBanos(0); setExtras([]);
