@@ -19,7 +19,7 @@ export default function SiteHeader() {
           <span className="font-display text-xl font-semibold tracking-tight">Vista360</span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition">Explorar</Link>
+          <Link to="/explorar" className="hover:text-foreground transition">Explorar</Link>
           <a href="#planes" className="hover:text-foreground transition">Para brokers</a>
           <a href="#contacto" className="hover:text-foreground transition">Contacto</a>
         </nav>

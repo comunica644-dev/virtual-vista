@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ExplorarRouteImport } from './routes/explorar'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TourSlugRouteImport } from './routes/tour.$slug'
@@ -27,6 +28,11 @@ import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExplorarRoute = ExplorarRouteImport.update({
+  id: '/explorar',
+  path: '/explorar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
@@ -103,6 +109,7 @@ const AuthenticatedDashboardEditorSlugRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/explorar': typeof ExplorarRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/broker/$id': typeof BrokerIdRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/explorar': typeof ExplorarRoute
   '/login': typeof LoginRoute
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/explorar': typeof ExplorarRoute
   '/login': typeof LoginRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/broker/$id': typeof BrokerIdRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/explorar'
     | '/login'
     | '/dashboard'
     | '/broker/$id'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/explorar'
     | '/login'
     | '/broker/$id'
     | '/live/$code'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/explorar'
     | '/login'
     | '/_authenticated/dashboard'
     | '/broker/$id'
@@ -198,6 +210,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  ExplorarRoute: typeof ExplorarRoute
   LoginRoute: typeof LoginRoute
   BrokerIdRoute: typeof BrokerIdRoute
   LiveCodeRoute: typeof LiveCodeRoute
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explorar': {
+      id: '/explorar'
+      path: '/explorar'
+      fullPath: '/explorar'
+      preLoaderRoute: typeof ExplorarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -350,6 +370,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  ExplorarRoute: ExplorarRoute,
   LoginRoute: LoginRoute,
   BrokerIdRoute: BrokerIdRoute,
   LiveCodeRoute: LiveCodeRoute,
