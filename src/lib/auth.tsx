@@ -33,12 +33,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, _password: string) => {
+    const isAdmin = /admin/i.test(email);
     const u: User = {
       id: 104,
       nombre: email.split("@")[0].replace(/\b\w/g, (c) => c.toUpperCase()) || "Broker",
       email,
-      rol: "broker",
-      plan: "ultra",
+      rol: isAdmin ? "admin" : "broker",
+      plan: isAdmin ? "ultra" : "ultra",
       avatar: "https://i.pravatar.cc/120?img=12",
     };
     localStorage.setItem(KEY, JSON.stringify(u));

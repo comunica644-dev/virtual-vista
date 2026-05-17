@@ -17,12 +17,17 @@ import { Route as TourSlugRouteImport } from './routes/tour.$slug'
 import { Route as LiveCodeRouteImport } from './routes/live.$code'
 import { Route as BrokerIdRouteImport } from './routes/broker.$id'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedDashboardPerfilRouteImport } from './routes/_authenticated/dashboard.perfil'
 import { Route as AuthenticatedDashboardNuevoRouteImport } from './routes/_authenticated/dashboard.nuevo'
 import { Route as AuthenticatedDashboardLiveRouteImport } from './routes/_authenticated/dashboard.live'
 import { Route as AuthenticatedDashboardInmueblesRouteImport } from './routes/_authenticated/dashboard.inmuebles'
 import { Route as AuthenticatedDashboardFacturacionRouteImport } from './routes/_authenticated/dashboard.facturacion'
+import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authenticated/admin.usuarios'
+import { Route as AuthenticatedAdminToursRouteImport } from './routes/_authenticated/admin.tours'
+import { Route as AuthenticatedAdminPlanesRouteImport } from './routes/_authenticated/admin.planes'
 import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
 
 const LoginRoute = LoginRouteImport.update({
@@ -64,12 +69,22 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedDashboardPerfilRoute =
   AuthenticatedDashboardPerfilRouteImport.update({
     id: '/perfil',
@@ -100,6 +115,23 @@ const AuthenticatedDashboardFacturacionRoute =
     path: '/facturacion',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedAdminUsuariosRoute =
+  AuthenticatedAdminUsuariosRouteImport.update({
+    id: '/usuarios',
+    path: '/usuarios',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminToursRoute = AuthenticatedAdminToursRouteImport.update({
+  id: '/tours',
+  path: '/tours',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminPlanesRoute =
+  AuthenticatedAdminPlanesRouteImport.update({
+    id: '/planes',
+    path: '/planes',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedDashboardEditorSlugRoute =
   AuthenticatedDashboardEditorSlugRouteImport.update({
     id: '/editor/$slug',
@@ -111,15 +143,20 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/explorar': typeof ExplorarRoute
   '/login': typeof LoginRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/admin/planes': typeof AuthenticatedAdminPlanesRoute
+  '/admin/tours': typeof AuthenticatedAdminToursRoute
+  '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/dashboard/nuevo': typeof AuthenticatedDashboardNuevoRoute
   '/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -130,11 +167,15 @@ export interface FileRoutesByTo {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/admin/planes': typeof AuthenticatedAdminPlanesRoute
+  '/admin/tours': typeof AuthenticatedAdminToursRoute
+  '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/dashboard/nuevo': typeof AuthenticatedDashboardNuevoRoute
   '/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -144,15 +185,20 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/explorar': typeof ExplorarRoute
   '/login': typeof LoginRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/_authenticated/admin/planes': typeof AuthenticatedAdminPlanesRoute
+  '/_authenticated/admin/tours': typeof AuthenticatedAdminToursRoute
+  '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/_authenticated/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/_authenticated/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/_authenticated/dashboard/live': typeof AuthenticatedDashboardLiveRoute
   '/_authenticated/dashboard/nuevo': typeof AuthenticatedDashboardNuevoRoute
   '/_authenticated/dashboard/perfil': typeof AuthenticatedDashboardPerfilRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/dashboard/editor/$slug': typeof AuthenticatedDashboardEditorSlugRoute
 }
@@ -162,15 +208,20 @@ export interface FileRouteTypes {
     | '/'
     | '/explorar'
     | '/login'
+    | '/admin'
     | '/dashboard'
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/admin/planes'
+    | '/admin/tours'
+    | '/admin/usuarios'
     | '/dashboard/facturacion'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
     | '/dashboard/nuevo'
     | '/dashboard/perfil'
+    | '/admin/'
     | '/dashboard/'
     | '/dashboard/editor/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -181,11 +232,15 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/admin/planes'
+    | '/admin/tours'
+    | '/admin/usuarios'
     | '/dashboard/facturacion'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
     | '/dashboard/nuevo'
     | '/dashboard/perfil'
+    | '/admin'
     | '/dashboard'
     | '/dashboard/editor/$slug'
   id:
@@ -194,15 +249,20 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/explorar'
     | '/login'
+    | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/_authenticated/admin/planes'
+    | '/_authenticated/admin/tours'
+    | '/_authenticated/admin/usuarios'
     | '/_authenticated/dashboard/facturacion'
     | '/_authenticated/dashboard/inmuebles'
     | '/_authenticated/dashboard/live'
     | '/_authenticated/dashboard/nuevo'
     | '/_authenticated/dashboard/perfil'
+    | '/_authenticated/admin/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/dashboard/editor/$slug'
   fileRoutesById: FileRoutesById
@@ -275,12 +335,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard/': {
       id: '/_authenticated/dashboard/'
       path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/dashboard/perfil': {
       id: '/_authenticated/dashboard/perfil'
@@ -317,6 +391,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardFacturacionRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/admin/usuarios': {
+      id: '/_authenticated/admin/usuarios'
+      path: '/usuarios'
+      fullPath: '/admin/usuarios'
+      preLoaderRoute: typeof AuthenticatedAdminUsuariosRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/tours': {
+      id: '/_authenticated/admin/tours'
+      path: '/tours'
+      fullPath: '/admin/tours'
+      preLoaderRoute: typeof AuthenticatedAdminToursRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/planes': {
+      id: '/_authenticated/admin/planes'
+      path: '/planes'
+      fullPath: '/admin/planes'
+      preLoaderRoute: typeof AuthenticatedAdminPlanesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/dashboard/editor/$slug': {
       id: '/_authenticated/dashboard/editor/$slug'
       path: '/editor/$slug'
@@ -326,6 +421,23 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminPlanesRoute: typeof AuthenticatedAdminPlanesRoute
+  AuthenticatedAdminToursRoute: typeof AuthenticatedAdminToursRoute
+  AuthenticatedAdminUsuariosRoute: typeof AuthenticatedAdminUsuariosRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminPlanesRoute: AuthenticatedAdminPlanesRoute,
+  AuthenticatedAdminToursRoute: AuthenticatedAdminToursRoute,
+  AuthenticatedAdminUsuariosRoute: AuthenticatedAdminUsuariosRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
 interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardFacturacionRoute: typeof AuthenticatedDashboardFacturacionRoute
@@ -356,10 +468,12 @@ const AuthenticatedDashboardRouteWithChildren =
   )
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
 }
 
