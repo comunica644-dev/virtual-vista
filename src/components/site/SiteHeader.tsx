@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Compass } from "lucide-react";
 
 export default function SiteHeader() {
-  const { isAuthed, hydrated } = useAuth();
+  const { isAuthed, hydrated, user } = useAuth();
   const path = useRouterState({ select: (s) => s.location.pathname });
-  const isDash = path.startsWith("/dashboard");
+  const isDash = path.startsWith("/dashboard") || path.startsWith("/cuenta") || path.startsWith("/admin");
   if (isDash) return null;
+  const panelTo = user?.rol === "cliente" ? "/cuenta" : "/dashboard";
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
@@ -25,7 +26,7 @@ export default function SiteHeader() {
         </nav>
         <div className="flex items-center gap-2">
           {hydrated && isAuthed ? (
-            <Button asChild size="sm"><Link to="/dashboard">Mi panel</Link></Button>
+            <Button asChild size="sm"><Link to={panelTo}>Mi cuenta</Link></Button>
           ) : (
             <>
               <Button asChild variant="ghost" size="sm"><Link to="/login">Ingresar</Link></Button>
