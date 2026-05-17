@@ -19,6 +19,7 @@ import { Route as TourSlugRouteImport } from './routes/tour.$slug'
 import { Route as LiveCodeRouteImport } from './routes/live.$code'
 import { Route as CuentaVisitasRouteImport } from './routes/cuenta.visitas'
 import { Route as CuentaMensajesRouteImport } from './routes/cuenta.mensajes'
+import { Route as CuentaLiveRouteImport } from './routes/cuenta.live'
 import { Route as CuentaFavoritosRouteImport } from './routes/cuenta.favoritos'
 import { Route as BrokerIdRouteImport } from './routes/broker.$id'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -82,6 +83,11 @@ const CuentaVisitasRoute = CuentaVisitasRouteImport.update({
 const CuentaMensajesRoute = CuentaMensajesRouteImport.update({
   id: '/mensajes',
   path: '/mensajes',
+  getParentRoute: () => CuentaRoute,
+} as any)
+const CuentaLiveRoute = CuentaLiveRouteImport.update({
+  id: '/live',
+  path: '/live',
   getParentRoute: () => CuentaRoute,
 } as any)
 const CuentaFavoritosRoute = CuentaFavoritosRouteImport.update({
@@ -178,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/broker/$id': typeof BrokerIdRoute
   '/cuenta/favoritos': typeof CuentaFavoritosRoute
+  '/cuenta/live': typeof CuentaLiveRoute
   '/cuenta/mensajes': typeof CuentaMensajesRoute
   '/cuenta/visitas': typeof CuentaVisitasRoute
   '/live/$code': typeof LiveCodeRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/broker/$id': typeof BrokerIdRoute
   '/cuenta/favoritos': typeof CuentaFavoritosRoute
+  '/cuenta/live': typeof CuentaLiveRoute
   '/cuenta/mensajes': typeof CuentaMensajesRoute
   '/cuenta/visitas': typeof CuentaVisitasRoute
   '/live/$code': typeof LiveCodeRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/broker/$id': typeof BrokerIdRoute
   '/cuenta/favoritos': typeof CuentaFavoritosRoute
+  '/cuenta/live': typeof CuentaLiveRoute
   '/cuenta/mensajes': typeof CuentaMensajesRoute
   '/cuenta/visitas': typeof CuentaVisitasRoute
   '/live/$code': typeof LiveCodeRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/broker/$id'
     | '/cuenta/favoritos'
+    | '/cuenta/live'
     | '/cuenta/mensajes'
     | '/cuenta/visitas'
     | '/live/$code'
@@ -280,6 +290,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/broker/$id'
     | '/cuenta/favoritos'
+    | '/cuenta/live'
     | '/cuenta/mensajes'
     | '/cuenta/visitas'
     | '/live/$code'
@@ -307,6 +318,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/broker/$id'
     | '/cuenta/favoritos'
+    | '/cuenta/live'
     | '/cuenta/mensajes'
     | '/cuenta/visitas'
     | '/live/$code'
@@ -406,6 +418,13 @@ declare module '@tanstack/react-router' {
       path: '/mensajes'
       fullPath: '/cuenta/mensajes'
       preLoaderRoute: typeof CuentaMensajesRouteImport
+      parentRoute: typeof CuentaRoute
+    }
+    '/cuenta/live': {
+      id: '/cuenta/live'
+      path: '/live'
+      fullPath: '/cuenta/live'
+      preLoaderRoute: typeof CuentaLiveRouteImport
       parentRoute: typeof CuentaRoute
     }
     '/cuenta/favoritos': {
@@ -577,6 +596,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 interface CuentaRouteChildren {
   CuentaFavoritosRoute: typeof CuentaFavoritosRoute
+  CuentaLiveRoute: typeof CuentaLiveRoute
   CuentaMensajesRoute: typeof CuentaMensajesRoute
   CuentaVisitasRoute: typeof CuentaVisitasRoute
   CuentaIndexRoute: typeof CuentaIndexRoute
@@ -584,6 +604,7 @@ interface CuentaRouteChildren {
 
 const CuentaRouteChildren: CuentaRouteChildren = {
   CuentaFavoritosRoute: CuentaFavoritosRoute,
+  CuentaLiveRoute: CuentaLiveRoute,
   CuentaMensajesRoute: CuentaMensajesRoute,
   CuentaVisitasRoute: CuentaVisitasRoute,
   CuentaIndexRoute: CuentaIndexRoute,
