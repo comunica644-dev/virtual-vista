@@ -14,6 +14,7 @@ import { Route as ExplorarRouteImport } from './routes/explorar'
 import { Route as CuentaRouteImport } from './routes/cuenta'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CuentaIndexRouteImport } from './routes/cuenta.index'
 import { Route as TourSlugRouteImport } from './routes/tour.$slug'
 import { Route as LiveCodeRouteImport } from './routes/live.$code'
 import { Route as BrokerIdRouteImport } from './routes/broker.$id'
@@ -54,6 +55,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CuentaIndexRoute = CuentaIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CuentaRoute,
 } as any)
 const TourSlugRoute = TourSlugRouteImport.update({
   id: '/tour/$slug',
@@ -147,7 +153,7 @@ const AuthenticatedDashboardEditorSlugRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/cuenta': typeof CuentaRoute
+  '/cuenta': typeof CuentaRouteWithChildren
   '/explorar': typeof ExplorarRoute
   '/login': typeof LoginRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/cuenta/': typeof CuentaIndexRoute
   '/admin/planes': typeof AuthenticatedAdminPlanesRoute
   '/admin/tours': typeof AuthenticatedAdminToursRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
@@ -169,12 +176,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/cuenta': typeof CuentaRoute
   '/explorar': typeof ExplorarRoute
   '/login': typeof LoginRoute
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/cuenta': typeof CuentaIndexRoute
   '/admin/planes': typeof AuthenticatedAdminPlanesRoute
   '/admin/tours': typeof AuthenticatedAdminToursRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
@@ -191,7 +198,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
-  '/cuenta': typeof CuentaRoute
+  '/cuenta': typeof CuentaRouteWithChildren
   '/explorar': typeof ExplorarRoute
   '/login': typeof LoginRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
@@ -199,6 +206,7 @@ export interface FileRoutesById {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/cuenta/': typeof CuentaIndexRoute
   '/_authenticated/admin/planes': typeof AuthenticatedAdminPlanesRoute
   '/_authenticated/admin/tours': typeof AuthenticatedAdminToursRoute
   '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
@@ -223,6 +231,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/cuenta/'
     | '/admin/planes'
     | '/admin/tours'
     | '/admin/usuarios'
@@ -237,12 +246,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/cuenta'
     | '/explorar'
     | '/login'
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/cuenta'
     | '/admin/planes'
     | '/admin/tours'
     | '/admin/usuarios'
@@ -266,6 +275,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/cuenta/'
     | '/_authenticated/admin/planes'
     | '/_authenticated/admin/tours'
     | '/_authenticated/admin/usuarios'
@@ -282,7 +292,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
-  CuentaRoute: typeof CuentaRoute
+  CuentaRoute: typeof CuentaRouteWithChildren
   ExplorarRoute: typeof ExplorarRoute
   LoginRoute: typeof LoginRoute
   BrokerIdRoute: typeof BrokerIdRoute
@@ -326,6 +336,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/cuenta/': {
+      id: '/cuenta/'
+      path: '/'
+      fullPath: '/cuenta/'
+      preLoaderRoute: typeof CuentaIndexRouteImport
+      parentRoute: typeof CuentaRoute
     }
     '/tour/$slug': {
       id: '/tour/$slug'
@@ -501,10 +518,21 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface CuentaRouteChildren {
+  CuentaIndexRoute: typeof CuentaIndexRoute
+}
+
+const CuentaRouteChildren: CuentaRouteChildren = {
+  CuentaIndexRoute: CuentaIndexRoute,
+}
+
+const CuentaRouteWithChildren =
+  CuentaRoute._addFileChildren(CuentaRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
-  CuentaRoute: CuentaRoute,
+  CuentaRoute: CuentaRouteWithChildren,
   ExplorarRoute: ExplorarRoute,
   LoginRoute: LoginRoute,
   BrokerIdRoute: BrokerIdRoute,
