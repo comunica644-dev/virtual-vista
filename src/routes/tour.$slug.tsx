@@ -53,11 +53,11 @@ export const Route = createFileRoute("/tour/$slug")({
 
 function TourPage() {
   const { tour } = Route.useLoaderData();
-  const [unlocked, setUnlocked] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [visitOpen, setVisitOpen] = useState(false);
   const { user, isAuthed } = useAuth();
   const isCliente = isAuthed && user?.rol === "cliente";
+  const [unlocked, setUnlocked] = useState(isCliente);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [visitOpen, setVisitOpen] = useState(false);
   const { isFav, toggle } = useFavoritos();
   const { send } = useChats();
   const fav = isFav(tour.slug);
