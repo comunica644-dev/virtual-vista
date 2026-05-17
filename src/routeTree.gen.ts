@@ -27,6 +27,7 @@ import { Route as AuthenticatedDashboardInmueblesRouteImport } from './routes/_a
 import { Route as AuthenticatedDashboardFacturacionRouteImport } from './routes/_authenticated/dashboard.facturacion'
 import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authenticated/admin.usuarios'
 import { Route as AuthenticatedAdminToursRouteImport } from './routes/_authenticated/admin.tours'
+import { Route as AuthenticatedAdminPlanesRouteImport } from './routes/_authenticated/admin.planes'
 import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
 
 const LoginRoute = LoginRouteImport.update({
@@ -125,6 +126,12 @@ const AuthenticatedAdminToursRoute = AuthenticatedAdminToursRouteImport.update({
   path: '/tours',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminPlanesRoute =
+  AuthenticatedAdminPlanesRouteImport.update({
+    id: '/planes',
+    path: '/planes',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedDashboardEditorSlugRoute =
   AuthenticatedDashboardEditorSlugRouteImport.update({
     id: '/editor/$slug',
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/admin/planes': typeof AuthenticatedAdminPlanesRoute
   '/admin/tours': typeof AuthenticatedAdminToursRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
@@ -159,6 +167,7 @@ export interface FileRoutesByTo {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/admin/planes': typeof AuthenticatedAdminPlanesRoute
   '/admin/tours': typeof AuthenticatedAdminToursRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
@@ -181,6 +190,7 @@ export interface FileRoutesById {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/_authenticated/admin/planes': typeof AuthenticatedAdminPlanesRoute
   '/_authenticated/admin/tours': typeof AuthenticatedAdminToursRoute
   '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/_authenticated/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/admin/planes'
     | '/admin/tours'
     | '/admin/usuarios'
     | '/dashboard/facturacion'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/admin/planes'
     | '/admin/tours'
     | '/admin/usuarios'
     | '/dashboard/facturacion'
@@ -242,6 +254,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/_authenticated/admin/planes'
     | '/_authenticated/admin/tours'
     | '/_authenticated/admin/usuarios'
     | '/_authenticated/dashboard/facturacion'
@@ -392,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminToursRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/planes': {
+      id: '/_authenticated/admin/planes'
+      path: '/planes'
+      fullPath: '/admin/planes'
+      preLoaderRoute: typeof AuthenticatedAdminPlanesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/dashboard/editor/$slug': {
       id: '/_authenticated/dashboard/editor/$slug'
       path: '/editor/$slug'
@@ -403,12 +423,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminPlanesRoute: typeof AuthenticatedAdminPlanesRoute
   AuthenticatedAdminToursRoute: typeof AuthenticatedAdminToursRoute
   AuthenticatedAdminUsuariosRoute: typeof AuthenticatedAdminUsuariosRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminPlanesRoute: AuthenticatedAdminPlanesRoute,
   AuthenticatedAdminToursRoute: AuthenticatedAdminToursRoute,
   AuthenticatedAdminUsuariosRoute: AuthenticatedAdminUsuariosRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
