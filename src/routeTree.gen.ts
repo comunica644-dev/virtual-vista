@@ -25,6 +25,7 @@ import { Route as AuthenticatedDashboardNuevoRouteImport } from './routes/_authe
 import { Route as AuthenticatedDashboardLiveRouteImport } from './routes/_authenticated/dashboard.live'
 import { Route as AuthenticatedDashboardInmueblesRouteImport } from './routes/_authenticated/dashboard.inmuebles'
 import { Route as AuthenticatedDashboardFacturacionRouteImport } from './routes/_authenticated/dashboard.facturacion'
+import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authenticated/admin.usuarios'
 import { Route as AuthenticatedDashboardEditorSlugRouteImport } from './routes/_authenticated/dashboard.editor.$slug'
 
 const LoginRoute = LoginRouteImport.update({
@@ -112,6 +113,12 @@ const AuthenticatedDashboardFacturacionRoute =
     path: '/facturacion',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedAdminUsuariosRoute =
+  AuthenticatedAdminUsuariosRouteImport.update({
+    id: '/usuarios',
+    path: '/usuarios',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedDashboardEditorSlugRoute =
   AuthenticatedDashboardEditorSlugRouteImport.update({
     id: '/editor/$slug',
@@ -128,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
@@ -144,6 +152,7 @@ export interface FileRoutesByTo {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/dashboard/live': typeof AuthenticatedDashboardLiveRoute
@@ -164,6 +173,7 @@ export interface FileRoutesById {
   '/broker/$id': typeof BrokerIdRoute
   '/live/$code': typeof LiveCodeRoute
   '/tour/$slug': typeof TourSlugRoute
+  '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/_authenticated/dashboard/facturacion': typeof AuthenticatedDashboardFacturacionRoute
   '/_authenticated/dashboard/inmuebles': typeof AuthenticatedDashboardInmueblesRoute
   '/_authenticated/dashboard/live': typeof AuthenticatedDashboardLiveRoute
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/admin/usuarios'
     | '/dashboard/facturacion'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/admin/usuarios'
     | '/dashboard/facturacion'
     | '/dashboard/inmuebles'
     | '/dashboard/live'
@@ -219,6 +231,7 @@ export interface FileRouteTypes {
     | '/broker/$id'
     | '/live/$code'
     | '/tour/$slug'
+    | '/_authenticated/admin/usuarios'
     | '/_authenticated/dashboard/facturacion'
     | '/_authenticated/dashboard/inmuebles'
     | '/_authenticated/dashboard/live'
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardFacturacionRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/admin/usuarios': {
+      id: '/_authenticated/admin/usuarios'
+      path: '/usuarios'
+      fullPath: '/admin/usuarios'
+      preLoaderRoute: typeof AuthenticatedAdminUsuariosRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/dashboard/editor/$slug': {
       id: '/_authenticated/dashboard/editor/$slug'
       path: '/editor/$slug'
@@ -364,10 +384,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminUsuariosRoute: typeof AuthenticatedAdminUsuariosRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminUsuariosRoute: AuthenticatedAdminUsuariosRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
