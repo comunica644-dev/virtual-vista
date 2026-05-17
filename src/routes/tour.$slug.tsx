@@ -3,10 +3,13 @@ import { useState } from "react";
 import { getTourBySlug, type Scene } from "@/lib/mock-data";
 import Pannellum360 from "@/components/site/Pannellum360";
 import LeadModal from "@/components/site/LeadModal";
+import VisitRequestModal from "@/components/site/VisitRequestModal";
+import { useAuth } from "@/lib/auth";
+import { useFavoritos, useChats } from "@/lib/cliente-store";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Bath, Bed, Lock, Maximize, MapPin, MessageCircle, Phone, ScanEye, Share2 } from "lucide-react";
+import { ArrowLeft, Bath, Bed, CalendarCheck, Heart, Lock, Maximize, MapPin, MessageCircle, Phone, ScanEye, Share2 } from "lucide-react";
 
 export const Route = createFileRoute("/tour/$slug")({
   loader: ({ params }) => {
@@ -50,8 +53,22 @@ export const Route = createFileRoute("/tour/$slug")({
 
 function TourPage() {
   const { tour } = Route.useLoaderData();
-  const [unlocked, setUnlocked] = useState(false);
+  const { user, isAuthed } = useAuth();
+  const isCliente = isAuthed && user?.rol === "cliente";
+  const [unlocked, setUnlocked] = useState(isCliente);
   const [modalOpen, setModalOpen] = useState(false);
+  const [visitOpen, setVisitOpen] = useState(false);
+  const { isFav, toggle } = useFavoritos();
+  const { send } = useChats();
+  const fav = isFav(tour.slug);
+
+  const startChat = () => {
+    send(
+      { tourSlug: tour.slug, tourTitulo: tour.titulo, brokerNombre: tour.broker.nombre, brokerAvatar: tour.broker.avatar },
+      `Hola, me interesa ${tour.titulo}. ¿Sigue disponible?`,
+    );
+    window.location.href = "/cuenta/mensajes";
+  };
 
   return (
     <main className="bg-gradient-warm">
@@ -69,12 +86,31 @@ function TourPage() {
             <Badge className="absolute top-4 left-4 bg-background/90 text-foreground backdrop-blur gap-1 border-0">
               <ScanEye className="h-3 w-3" /> Tour 360° libre
             </Badge>
+            {isCliente && (
+              <button
+                onClick={() => toggle(tour.slug)}
+                aria-label="Guardar en favoritos"
+                className={`absolute top-4 right-4 h-10 w-10 grid place-items-center rounded-full backdrop-blur transition ${fav ? "bg-accent text-accent-foreground" : "bg-background/90 text-foreground hover:bg-background"}`}
+              >
+                <Heart className={`h-5 w-5 ${fav ? "fill-current" : ""}`} />
+              </button>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             {tour.scenes.map((s: Scene) => (
               <Badge key={s.id} variant="outline" className="text-xs">{s.title}</Badge>
             ))}
           </div>
+          {isCliente && (
+            <div className="grid grid-cols-2 gap-2">
+              <Button onClick={() => setVisitOpen(true)} size="lg">
+                <CalendarCheck className="h-4 w-4" /> Solicitar visita
+              </Button>
+              <Button onClick={startChat} size="lg" variant="outline">
+                <MessageCircle className="h-4 w-4" /> Chatear con el broker
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Panel de info con gated content */}
@@ -144,6 +180,13 @@ function TourPage() {
       </div>
 
       <LeadModal open={modalOpen} onOpenChange={setModalOpen} tourTitle={tour.titulo} onUnlock={() => setUnlocked(true)} />
+      <VisitRequestModal
+        open={visitOpen}
+        onOpenChange={setVisitOpen}
+        tourSlug={tour.slug}
+        tourTitulo={tour.titulo}
+        brokerNombre={tour.broker.nombre}
+      />
     </main>
   );
 }

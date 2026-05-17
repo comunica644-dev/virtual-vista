@@ -15,7 +15,10 @@ function AuthLayout() {
 
   useEffect(() => {
     if (hydrated && !isAuthed) nav({ to: "/login" });
-  }, [hydrated, isAuthed, nav]);
+    if (hydrated && isAuthed && user?.rol === "cliente" && path.startsWith("/dashboard")) {
+      nav({ to: "/cuenta" });
+    }
+  }, [hydrated, isAuthed, user, path, nav]);
 
   if (!hydrated || !isAuthed) {
     return (

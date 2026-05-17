@@ -27,7 +27,9 @@ function LoginPage() {
     e.preventDefault();
     setLoading(true);
     await login(email, pwd);
-    nav({ to: "/dashboard" });
+    const isAdmin = /admin/i.test(email);
+    const isBroker = /broker|inmo|bienes|realtor/i.test(email);
+    nav({ to: isAdmin || isBroker ? "/dashboard" : "/cuenta" });
   };
 
   return (
@@ -52,6 +54,11 @@ function LoginPage() {
           <h2 className="font-display text-3xl">Ingresar</h2>
           <p className="text-sm text-muted-foreground mt-1">Usa cualquier credencial — esta es una demo.</p>
           <form onSubmit={submit} className="mt-6 space-y-4">
+            <div className="flex gap-2 text-xs">
+              <button type="button" onClick={() => setEmail("broker@empresa.com")} className="rounded-md border border-border px-2.5 py-1 hover:bg-muted">Broker demo</button>
+              <button type="button" onClick={() => setEmail("cliente@correo.com")} className="rounded-md border border-border px-2.5 py-1 hover:bg-muted">Cliente demo</button>
+              <button type="button" onClick={() => setEmail("admin@vista360.com")} className="rounded-md border border-border px-2.5 py-1 hover:bg-muted">Admin demo</button>
+            </div>
             <div className="space-y-1.5">
               <Label htmlFor="e">Email</Label>
               <Input id="e" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />

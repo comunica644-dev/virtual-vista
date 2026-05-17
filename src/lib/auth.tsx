@@ -4,7 +4,7 @@ export type User = {
   id: number;
   nombre: string;
   email: string;
-  rol: "broker" | "admin";
+  rol: "broker" | "admin" | "cliente";
   plan: "free" | "pro" | "ultra";
   avatar: string;
 };
@@ -34,11 +34,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, _password: string) => {
     const isAdmin = /admin/i.test(email);
+    const isBroker = /broker|inmo|bienes|realtor/i.test(email);
+    const rol: User["rol"] = isAdmin ? "admin" : isBroker ? "broker" : "cliente";
     const u: User = {
       id: 104,
       nombre: email.split("@")[0].replace(/\b\w/g, (c) => c.toUpperCase()) || "Broker",
       email,
-      rol: isAdmin ? "admin" : "broker",
+      rol,
       plan: isAdmin ? "ultra" : "ultra",
       avatar: "https://i.pravatar.cc/120?img=12",
     };
